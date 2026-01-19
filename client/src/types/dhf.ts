@@ -35,10 +35,23 @@ export interface DHFChange {
   modifications?: DHFModification[];
 }
 
+export interface DHFHistoryEntry {
+  commit: string;
+  author: string;
+  date: string;
+  message: string;
+  action: 'added' | 'modified' | 'deleted';
+  before?: string;
+  after?: string;
+  text?: string;
+  modifications?: DHFModification[];
+}
+
 export interface DHFSegment {
   type: 'unchanged' | 'added' | 'deleted' | 'modified';
   text: string;
   change?: DHFChange;
+  history?: DHFHistoryEntry[];
 }
 
 export interface DHFAuthor {

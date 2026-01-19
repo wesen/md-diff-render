@@ -1,154 +1,93 @@
 {
   "document": {
-    "path": "README.md",
-    "repo": "sample_repo",
+    "path": "test.md",
+    "repo": "multi_commit_test",
     "branch": "master",
-    "current_commit": "627db0a",
-    "generated_at": "2026-01-19T13:13:13.788757Z"
+    "current_commit": "5ac9ff7",
+    "generated_at": "2026-01-19T16:14:32.916491Z"
   },
   "view": {
-    "since": "158bddf",
+    "since": "cb93f0422afa474c666514e3089ded0cd040e2f4",
     "until": "now"
   },
   "commits": [
     {
-      "id": "ad5a26f",
-      "author": "Alice",
-      "email": "alice@acme.co",
-      "date": "2025-01-12T09:15:00-05:00",
-      "message": "Stronger marketing copy"
+      "id": "124c5e3",
+      "author": "Test User",
+      "email": "test@example.com",
+      "date": "2026-01-19T16:13:14-05:00",
+      "message": "Update to version 2"
     },
     {
-      "id": "2a8727e",
-      "author": "Alice",
-      "email": "alice@acme.co",
-      "date": "2025-01-15T11:30:00-05:00",
-      "message": "Add config docs"
-    },
-    {
-      "id": "f53c8c6",
-      "author": "Carol",
-      "email": "carol@acme.co",
-      "date": "2025-01-18T16:45:00-05:00",
-      "message": "Ready for v1.0!"
-    },
-    {
-      "id": "54439fd",
-      "author": "Bob",
-      "email": "bob@acme.co",
-      "date": "2025-01-18T17:00:00-05:00",
-      "message": "Add diff feature per team request"
-    },
-    {
-      "id": "627db0a",
-      "author": "Alice",
-      "email": "alice@acme.co",
-      "date": "2025-01-19T12:00:00-05:00",
-      "message": "Add collaboration feature"
+      "id": "5ac9ff7",
+      "author": "Test User",
+      "email": "test@example.com",
+      "date": "2026-01-19T16:13:14-05:00",
+      "message": "Update to version 3"
     }
   ],
   "content": [
     {
       "type": "unchanged",
-      "text": "# Project Overview\n"
+      "text": "# Test Document\n"
     },
     {
       "type": "modified",
-      "text": "This is a powerful markdown editor that tracks changes over time.",
-      "change": {
-        "commit": "ad5a26f",
-        "before": "This is a simple markdown editor that tracks changes.",
-        "modifications": [
-          {
-            "offset": 10,
-            "old": "sim",
-            "new": ""
-          },
-          {
-            "offset": 14,
-            "old": "",
-            "new": "owerfu"
-          },
-          {
-            "offset": 15,
-            "old": "e",
-            "new": ""
-          },
-          {
-            "offset": 52,
-            "old": "",
-            "new": " over time"
-          }
-        ]
-      }
-    },
-    {
-      "type": "unchanged",
-      "text": "\nIt was designed for teams who care about document history.\n\n## Features\n"
-    },
-    {
-      "type": "added",
-      "text": "- Real-time collaboration",
-      "change": {
-        "commit": "627db0a"
-      }
-    },
-    {
-      "type": "unchanged",
-      "text": "- Git integration"
-    },
-    {
-      "type": "added",
-      "text": "- Diff visualization",
-      "change": {
-        "commit": "54439fd"
-      }
-    },
-    {
-      "type": "unchanged",
-      "text": "- Export options\n\n## Installation\n\nTo get started, install the package:\n\n    npm install markdown-tracker\n\nThen initialize your project:\n\n    npx markdown-tracker init\n\nThis will create a `.tracker` folder in your repository.\n"
-    },
-    {
-      "type": "added",
-      "text": "## Configuration\n\nYou can customize behavior by creating a `tracker.config.js` file in your project root. Available options include:\n\n- `ignorePatterns` - files to skip\n- `branch` - default branch to track\n- `remote` - git remote name\n",
-      "change": {
-        "commit": "2a8727e"
-      }
-    },
-    {
-      "type": "unchanged",
-      "text": "## Contributing\n"
-    },
-    {
-      "type": "deleted",
-      "text": "\nNote: This project is still in alpha.",
-      "change": {
-        "commit": "ad5a26f"
-      }
-    },
-    {
-      "type": "unchanged",
-      "text": "We welcome contributions! Please read our contributing guide before submitting PRs.\n"
+      "text": "This is version 3 of the text.",
+      "history": [
+        {
+          "commit": "cb93f04",
+          "author": "Test User",
+          "date": "2026-01-19T16:13:14-05:00",
+          "message": "Initial version",
+          "action": "added",
+          "text": "This is version 1 of the text."
+        },
+        {
+          "commit": "124c5e3",
+          "author": "Test User",
+          "date": "2026-01-19T16:13:14-05:00",
+          "message": "Update to version 2",
+          "action": "modified",
+          "before": "This is version 1 of the text.",
+          "after": "This is version 2 of the text.",
+          "modifications": [
+            {
+              "offset": 16,
+              "old": "1",
+              "new": "2"
+            }
+          ]
+        },
+        {
+          "commit": "5ac9ff7",
+          "author": "Test User",
+          "date": "2026-01-19T16:13:14-05:00",
+          "message": "Update to version 3",
+          "action": "modified",
+          "before": "This is version 2 of the text.",
+          "after": "This is version 3 of the text.",
+          "modifications": [
+            {
+              "offset": 16,
+              "old": "2",
+              "new": "3"
+            }
+          ]
+        }
+      ]
     }
   ],
   "summary": {
-    "total_commits": 5,
+    "total_commits": 2,
     "authors": [
       {
-        "name": "Alice",
-        "commits": 3
-      },
-      {
-        "name": "Carol",
-        "commits": 1
-      },
-      {
-        "name": "Bob",
-        "commits": 1
+        "name": "Test User",
+        "commits": 2
       }
     ],
-    "lines_added": 3,
-    "lines_deleted": 1,
+    "lines_added": 0,
+    "lines_deleted": 0,
     "lines_modified": 1
   }
 }
