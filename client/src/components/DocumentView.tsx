@@ -65,7 +65,7 @@ export default function DocumentView({
     // For deleted segments, show with strikethrough
     if (segment.type === "deleted") {
       return (
-        <Tooltip key={index}>
+        <Tooltip key={index} delayDuration={300}>
           <TooltipTrigger asChild>
             <div
               className="change-deleted my-2 rounded-sm transition-all duration-200"
@@ -96,7 +96,7 @@ export default function DocumentView({
     // For added segments
     if (segment.type === "added") {
       return (
-        <Tooltip key={index}>
+        <Tooltip key={index} delayDuration={300}>
           <TooltipTrigger asChild>
             <div
               className="change-added my-2 rounded-sm transition-all duration-200 relative"
@@ -165,7 +165,7 @@ export default function DocumentView({
           : "Modified";
 
       return (
-        <Tooltip key={index}>
+        <Tooltip key={index} delayDuration={300}>
           <TooltipTrigger asChild>
             <div
               className="change-modified my-2 rounded-sm transition-all duration-200 relative"

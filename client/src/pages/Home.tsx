@@ -9,19 +9,60 @@
  * - Focus on content readability and change visualization
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { DHF } from "@/types/dhf";
 import Header from "@/components/Header";
 import DocumentView from "@/components/DocumentView";
 import VersionTimeline from "@/components/VersionTimeline";
+import SearchPanel from "@/components/SearchPanel";
 import { Button } from "@/components/ui/button";
-import { Upload, FileText } from "lucide-react";
+import { Upload, FileText, Search, FileDown } from "lucide-react";
 import { toast } from "sonner";
+import { reconstructAtCommit, getCurrentState } from "@/lib/timeTravel";
+import { exportToPDF } from "@/lib/pdfExport";
 
 export default function Home() {
   const [dhfData, setDhfData] = useState<DHF | null>(null);
   const [showChanges, setShowChanges] = useState(true);
   const [selectedCommit, setSelectedCommit] = useState<string | undefined>();
+  const [showSearch, setShowSearch] = useState(false);
+
+  // Time-travel: reconstruct document at selected commit
+  const timeTravelState = useMemo(() => {
+    if (!dhfData || !selectedCommit) return null;
+    return reconstructAtCommit(dhfData, selectedCommit);
+  }, [dhfData, selectedCommit]);
+
+  const handleCommitSelect = (commitId: string) => {
+    setSelectedCommit(commitId);
+    const commit = dhfData?.commits.find(c => c.id === commitId);
+    if (commit) {
+      const isLatest = commitId === dhfData?.commits[dhfData.commits.length - 1]?.id;
+      if (isLatest) {
+        toast.success("Viewing current version");
+      } else {
+        toast.info(`Time-traveled to: ${commit.message}`);
+      }
+    }
+  };
+
+  const handleSearchResultClick = (commitId: string, segmentIndex: number) => {
+    handleCommitSelect(commitId);
+    // Scroll to segment (future enhancement)
+    toast.success("Jumped to search result");
+  };
+
+  const handleExportPDF = async () => {
+    if (!dhfData) return;
+    try {
+      toast.info("Generating PDF...");
+      await exportToPDF(dhfData);
+      toast.success("PDF exported successfully");
+    } catch (error) {
+      console.error("PDF export failed:", error);
+      toast.error("Failed to export PDF");
+    }
+  };
 
   // Load sample data or allow file upload
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -249,13 +290,46 @@ export default function Home() {
         showChanges={showChanges}
         onToggleChanges={setShowChanges}
       />
+      <div className="border-b px-4 py-2 flex items-center gap-2">
+        <Button
+          variant={showSearch ? "default" : "outline"}
+          size="sm"
+          onClick={() => setShowSearch(!showSearch)}
+        >
+          <Search className="w-4 h-4 mr-2" />
+          Search
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleExportPDF}
+        >
+          <FileDown className="w-4 h-4 mr-2" />
+          Export PDF
+        </Button>
+      </div>
 
       <div className="flex-1 flex overflow-hidden">
         {/* Main content area */}
         <main className="flex-1 overflow-y-auto">
           <div className="max-w-4xl mx-auto px-8 py-8">
+            {timeTravelState?.isHistorical && (
+              <div className="mb-6 p-4 bg-muted/50 border border-border rounded-lg">
+                <p className="text-sm font-medium">
+                  📅 Viewing historical version at commit {timeTravelState.commit.substring(0, 7)}
+                </p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="mt-2"
+                  onClick={() => handleCommitSelect(dhfData.commits[dhfData.commits.length - 1].id)}
+                >
+                  Return to current version
+                </Button>
+              </div>
+            )}
             <DocumentView
-              segments={dhfData.content}
+              segments={timeTravelState?.segments || dhfData.content}
               commits={dhfData.commits}
               showChanges={showChanges}
             />
@@ -267,9 +341,20 @@ export default function Home() {
           <VersionTimeline
             commits={dhfData.commits}
             selectedCommit={selectedCommit}
-            onCommitClick={setSelectedCommit}
+            onCommitClick={handleCommitSelect}
           />
         </aside>
+
+        {/* Search panel */}
+        {showSearch && (
+          <aside className="w-96 overflow-hidden flex flex-col">
+            <SearchPanel
+              dhf={dhfData}
+              onResultClick={handleSearchResultClick}
+              onClose={() => setShowSearch(false)}
+            />
+          </aside>
+        )}
       </div>
 
       {/* Upload new file button */}
