@@ -1,0 +1,154 @@
+{
+  "document": {
+    "path": "README.md",
+    "repo": "sample_repo",
+    "branch": "master",
+    "current_commit": "627db0a",
+    "generated_at": "2026-01-19T13:13:13.788757Z"
+  },
+  "view": {
+    "since": "158bddf",
+    "until": "now"
+  },
+  "commits": [
+    {
+      "id": "ad5a26f",
+      "author": "Alice",
+      "email": "alice@acme.co",
+      "date": "2025-01-12T09:15:00-05:00",
+      "message": "Stronger marketing copy"
+    },
+    {
+      "id": "2a8727e",
+      "author": "Alice",
+      "email": "alice@acme.co",
+      "date": "2025-01-15T11:30:00-05:00",
+      "message": "Add config docs"
+    },
+    {
+      "id": "f53c8c6",
+      "author": "Carol",
+      "email": "carol@acme.co",
+      "date": "2025-01-18T16:45:00-05:00",
+      "message": "Ready for v1.0!"
+    },
+    {
+      "id": "54439fd",
+      "author": "Bob",
+      "email": "bob@acme.co",
+      "date": "2025-01-18T17:00:00-05:00",
+      "message": "Add diff feature per team request"
+    },
+    {
+      "id": "627db0a",
+      "author": "Alice",
+      "email": "alice@acme.co",
+      "date": "2025-01-19T12:00:00-05:00",
+      "message": "Add collaboration feature"
+    }
+  ],
+  "content": [
+    {
+      "type": "unchanged",
+      "text": "# Project Overview\n"
+    },
+    {
+      "type": "modified",
+      "text": "This is a powerful markdown editor that tracks changes over time.",
+      "change": {
+        "commit": "ad5a26f",
+        "before": "This is a simple markdown editor that tracks changes.",
+        "modifications": [
+          {
+            "offset": 10,
+            "old": "sim",
+            "new": ""
+          },
+          {
+            "offset": 14,
+            "old": "",
+            "new": "owerfu"
+          },
+          {
+            "offset": 15,
+            "old": "e",
+            "new": ""
+          },
+          {
+            "offset": 52,
+            "old": "",
+            "new": " over time"
+          }
+        ]
+      }
+    },
+    {
+      "type": "unchanged",
+      "text": "\nIt was designed for teams who care about document history.\n\n## Features\n"
+    },
+    {
+      "type": "added",
+      "text": "- Real-time collaboration",
+      "change": {
+        "commit": "627db0a"
+      }
+    },
+    {
+      "type": "unchanged",
+      "text": "- Git integration"
+    },
+    {
+      "type": "added",
+      "text": "- Diff visualization",
+      "change": {
+        "commit": "54439fd"
+      }
+    },
+    {
+      "type": "unchanged",
+      "text": "- Export options\n\n## Installation\n\nTo get started, install the package:\n\n    npm install markdown-tracker\n\nThen initialize your project:\n\n    npx markdown-tracker init\n\nThis will create a `.tracker` folder in your repository.\n"
+    },
+    {
+      "type": "added",
+      "text": "## Configuration\n\nYou can customize behavior by creating a `tracker.config.js` file in your project root. Available options include:\n\n- `ignorePatterns` - files to skip\n- `branch` - default branch to track\n- `remote` - git remote name\n",
+      "change": {
+        "commit": "2a8727e"
+      }
+    },
+    {
+      "type": "unchanged",
+      "text": "## Contributing\n"
+    },
+    {
+      "type": "deleted",
+      "text": "\nNote: This project is still in alpha.",
+      "change": {
+        "commit": "ad5a26f"
+      }
+    },
+    {
+      "type": "unchanged",
+      "text": "We welcome contributions! Please read our contributing guide before submitting PRs.\n"
+    }
+  ],
+  "summary": {
+    "total_commits": 5,
+    "authors": [
+      {
+        "name": "Alice",
+        "commits": 3
+      },
+      {
+        "name": "Carol",
+        "commits": 1
+      },
+      {
+        "name": "Bob",
+        "commits": 1
+      }
+    ],
+    "lines_added": 3,
+    "lines_deleted": 1,
+    "lines_modified": 1
+  }
+}
