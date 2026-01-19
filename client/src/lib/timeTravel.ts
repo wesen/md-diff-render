@@ -18,8 +18,15 @@ export interface TimeTravelState {
 export function reconstructAtCommit(dhf: DHF, targetCommitId: string): TimeTravelState {
   const commitIndex = dhf.commits.findIndex(c => c.id === targetCommitId);
   
+  console.log("[TimeTravel] reconstructAtCommit called:", {
+    targetCommitId,
+    commitIndex,
+    allCommits: dhf.commits.map(c => c.id),
+  });
+  
   if (commitIndex === -1) {
     // Invalid commit, return current state
+    console.log("[TimeTravel] Invalid commit, returning current state");
     return {
       commit: targetCommitId,
       segments: dhf.content,
@@ -31,6 +38,8 @@ export function reconstructAtCommit(dhf: DHF, targetCommitId: string): TimeTrave
   const commitsUpToTarget = new Set(
     dhf.commits.slice(0, commitIndex + 1).map(c => c.id)
   );
+  
+  console.log("[TimeTravel] Commits up to target:", Array.from(commitsUpToTarget));
 
   const reconstructedSegments: DHFSegment[] = [];
 
@@ -43,10 +52,18 @@ export function reconstructAtCommit(dhf: DHF, targetCommitId: string): TimeTrave
 
     // For segments with history, find the state at target commit
     if (segment.history && segment.history.length > 0) {
-      // Find the last history entry up to target commit
-      const relevantHistory = segment.history.filter(h => 
-        commitsUpToTarget.has(h.commit)
-      );
+      // Find the index of the target commit in the history
+      const targetHistoryIndex = segment.history.findIndex(h => h.commit === targetCommitId);
+      
+      // If target commit is not in history, check if any history entry is in commitsUpToTarget
+      let relevantHistory;
+      if (targetHistoryIndex >= 0) {
+        // Include all history entries up to and including the target
+        relevantHistory = segment.history.slice(0, targetHistoryIndex + 1);
+      } else {
+        // Target commit not in history, find the last entry before target
+        relevantHistory = segment.history.filter(h => commitsUpToTarget.has(h.commit));
+      }
 
       if (relevantHistory.length === 0) {
         // This segment didn't exist at target commit
@@ -60,10 +77,31 @@ export function reconstructAtCommit(dhf: DHF, targetCommitId: string): TimeTrave
         continue;
       }
 
+      // Extract the correct text based on action type
+      let historicalText: string;
+      if (lastEntry.action === "added") {
+        // For added lines, use the text field
+        historicalText = lastEntry.text || segment.text;
+      } else if (lastEntry.action === "modified") {
+        // For modified lines, use the "after" field (the result of modification)
+        historicalText = lastEntry.after || segment.text;
+      } else {
+        // Fallback to segment text
+        historicalText = segment.text;
+      }
+
+      console.log("[TimeTravel] Reconstructing segment:", {
+        targetCommit: targetCommitId,
+        lastEntryCommit: lastEntry.commit,
+        action: lastEntry.action,
+        historicalText,
+        segmentText: segment.text,
+      });
+
       // Use the text from the last relevant history entry
       reconstructedSegments.push({
         type: lastEntry.action === "added" ? "added" : "modified",
-        text: lastEntry.after || lastEntry.text || segment.text,
+        text: historicalText,
         change: {
           commit: lastEntry.commit,
           before: lastEntry.before,
